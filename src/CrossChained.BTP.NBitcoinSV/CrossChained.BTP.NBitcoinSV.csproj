@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Authors>Vadim Malyshev</Authors>
+    <Company>CrossChained</Company>
+    <Product>CrossChained BTP</Product>
+    <Description>Support BSV fork in the NBitcoin</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>CrossChained</Copyright>
+    <PackageProjectUrl>https://github.com/CrossChained/BTP</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CrossChained/BTP</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>BSV NBitcoin Bitcoin</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NBitcoin" Version="4.2.7" />
+    <PackageReference Include="NBitcoin.Altcoins" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>

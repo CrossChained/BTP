@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.BitIndex.Client", "src\CrossChained.BTP.BitIndex.Client\CrossChained.BTP.BitIndex.Client.csproj", "{4B1DC258-D50F-4DED-876A-5B90278DC3C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F53F111D-2DF7-4E50-B762-4245016A0ED0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.NBitcoinSV.Tests", "tests\CrossChained.BTP.NBitcoinSV.Tests\CrossChained.BTP.NBitcoinSV.Tests.csproj", "{EF26DB9E-067E-43B7-882B-3B5AA377C728}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.NBitcoinSV", "src\CrossChained.BTP.NBitcoinSV\CrossChained.BTP.NBitcoinSV.csproj", "{B2E242FF-C51F-47B9-AB97-AA1568A6475B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.NBitcoinSV.Client", "src\CrossChained.BTP.NBitcoinSV.Client\CrossChained.BTP.NBitcoinSV.Client.csproj", "{77FCA9A5-5026-4312-B777-52B81B670312}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B1DC258-D50F-4DED-876A-5B90278DC3C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B1DC258-D50F-4DED-876A-5B90278DC3C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B1DC258-D50F-4DED-876A-5B90278DC3C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B1DC258-D50F-4DED-876A-5B90278DC3C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF26DB9E-067E-43B7-882B-3B5AA377C728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF26DB9E-067E-43B7-882B-3B5AA377C728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF26DB9E-067E-43B7-882B-3B5AA377C728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF26DB9E-067E-43B7-882B-3B5AA377C728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E242FF-C51F-47B9-AB97-AA1568A6475B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E242FF-C51F-47B9-AB97-AA1568A6475B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E242FF-C51F-47B9-AB97-AA1568A6475B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E242FF-C51F-47B9-AB97-AA1568A6475B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FCA9A5-5026-4312-B777-52B81B670312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FCA9A5-5026-4312-B777-52B81B670312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FCA9A5-5026-4312-B777-52B81B670312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FCA9A5-5026-4312-B777-52B81B670312}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF26DB9E-067E-43B7-882B-3B5AA377C728} = {F53F111D-2DF7-4E50-B762-4245016A0ED0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B19D10B8-3639-4E08-9E29-CA5CF26D938F}
+	EndGlobalSection
+EndGlobal

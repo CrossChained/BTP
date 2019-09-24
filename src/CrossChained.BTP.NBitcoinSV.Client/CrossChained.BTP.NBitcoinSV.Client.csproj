@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.1</Version>
+    <Authors>Vadim Malyshev</Authors>
+    <Company>CrossChained</Company>
+    <Product>CrossChained BTP</Product>
+    <Description>API to form BSV transactions</Description>
+    <Copyright>CrossChained</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/CrossChained/BTP</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CrossChained/BTP</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>BSV BitIndex</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NBitcoin" Version="4.2.7" />
+    <PackageReference Include="CrossChained.BTP.BitIndex.Client" Version="0.0.1" />
+    <PackageReference Include="CrossChained.BTP.NBitcoinSV" Version="0.0.1" />
+  </ItemGroup>
+
+</Project>
