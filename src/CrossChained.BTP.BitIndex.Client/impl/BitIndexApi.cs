@@ -91,7 +91,7 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                     await ThrowError("Unable to install web hook.", response);
                 }
 
-                request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook /monitored_addrs"));
+                request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook/monitored_addrs"));
                 request.Headers.Add("api_key", this.options_.ApiKey);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new MonitorAddress[]
