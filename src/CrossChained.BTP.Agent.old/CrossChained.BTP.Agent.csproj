@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.6.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrossChained.RAFT.WebSockets\CrossChained.RAFT.WebSockets.csproj" />
+    <ProjectReference Include="..\CrossChained.RAFT\CrossChained.RAFT.csproj" />
+    <ProjectReference Include="..\CrossChained.WebSockets\CrossChained.WebSockets.csproj" />
+  </ItemGroup>
+
+</Project>
