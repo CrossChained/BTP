@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrossChained.BTP.Agent.API\CrossChained.BTP.Agent.API.csproj" />
     <ProjectReference Include="..\CrossChained.RAFT.WebSockets\CrossChained.RAFT.WebSockets.csproj" />
     <ProjectReference Include="..\CrossChained.RAFT\CrossChained.RAFT.csproj" />
     <ProjectReference Include="..\CrossChained.WebSockets\CrossChained.WebSockets.csproj" />

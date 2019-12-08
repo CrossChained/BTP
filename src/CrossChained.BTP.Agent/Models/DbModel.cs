@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System.Linq;
 
-namespace Models
+namespace CrossChained.BTP.Agent.Models
 {
     internal class DbModel : DbContext
     {
         public DbModel(DbContextOptions options)
-    : base(options)
+        : base(options)
         {
             if (!is_inited_)
             {

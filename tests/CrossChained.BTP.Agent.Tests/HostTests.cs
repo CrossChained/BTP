@@ -2,13 +2,10 @@
 
 namespace CrossChained.BTP.Agent.Tests
 {
-    public class HostTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class HostTests
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
-
-        public HostTests(CustomWebApplicationFactory<Startup> factory)
+        public HostTests()
         {
-            _factory = factory;
         }
     }
 }

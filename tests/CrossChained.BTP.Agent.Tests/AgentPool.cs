@@ -1,4 +1,7 @@
 ﻿using CrossChained.BTP.Agent.API;
+using CrossChained.BTP.Agent.Tests.Mock;
+using CrossChained.BTP.BitIndex.Client;
+using CrossChained.BTP.NBitcoinSV;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,8 +13,29 @@ namespace CrossChained.BTP.Agent.Tests
     internal class AgentPool
     {
         private readonly List<CustomWebApplicationFactory<Startup>> agents_ = new List<CustomWebApplicationFactory<Startup>>();
+
+        internal IApiClient get_client()
+        {
+            throw new NotImplementedException();
+        }
+
         public AgentPool()
         {
+        }
+
+        internal Mock.BSVUser create_user(decimal start_sum)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal IBitIndexApi get_bitindex_api()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal IBitcoinSVApi get_bitcoin_api()
+        {
+            throw new NotImplementedException();
         }
 
         internal void start(int count)
@@ -22,21 +46,16 @@ namespace CrossChained.BTP.Agent.Tests
             }
         }
 
-        internal IApiClient ConnectApi(int i)
-        {
-            var client = this.agents_[i].Server.CreateWebSocketClient();
-            using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60)))
-            {
-                var ws = client.ConnectAsync(new Uri("ws://localhost:8080"), cts.Token).Result;
-                return new WSClient.ApiClient(ws);
-            }
-        }
-
         internal TestServer start_agent()
         {
             var host = new CustomWebApplicationFactory<Startup>();
             this.agents_.Add(host);
             return host.Server;            
+        }
+
+        internal decimal get_user_balance(BSVUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

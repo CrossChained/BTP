@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrossChained.BTP.Agent.API\CrossChained.BTP.Agent.API.csproj" />
-    <ProjectReference Include="..\CrossChained.WebSockets\CrossChained.WebSockets.csproj" />
   </ItemGroup>
 
 </Project>

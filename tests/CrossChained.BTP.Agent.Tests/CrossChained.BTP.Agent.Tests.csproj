@@ -16,8 +16,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CrossChained.BTP.Agent.API\CrossChained.BTP.Agent.API.csproj" />
-    <ProjectReference Include="..\..\src\CrossChained.BTP.Agent.WSClient\CrossChained.BTP.Agent.WSClient.csproj" />
     <ProjectReference Include="..\..\src\CrossChained.BTP.Agent\CrossChained.BTP.Agent.csproj" />
+    <ProjectReference Include="..\..\src\CrossChained.BTP.BitIndex.Client\CrossChained.BTP.BitIndex.Client.csproj" />
+    <ProjectReference Include="..\..\src\CrossChained.BTP.NBitcoinSV.Client\CrossChained.BTP.NBitcoinSV.Client.csproj" />
   </ItemGroup>
 
 </Project>
