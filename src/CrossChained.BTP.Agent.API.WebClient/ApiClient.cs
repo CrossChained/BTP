@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CrossChained.BTP.Agent.API.WebClient
 {
     public class ApiClient : IApiClient
     {
+        private HttpClient http_client_;
+
+        public ApiClient(HttpClient httpClient)
+        {
+            this.http_client_ = httpClient;
+        }
+
         public Task cancel_position(string trx)
         {
             throw new NotImplementedException();
@@ -15,14 +23,14 @@ namespace CrossChained.BTP.Agent.API.WebClient
             throw new NotImplementedException();
         }
 
-        public Task close_session(string trx, DateTime close_time)
+        public Task close_session(DateTime close_time)
         {
             throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.http_client_.Dispose();
         }
 
         public Task<string> get_margin_pool_address()

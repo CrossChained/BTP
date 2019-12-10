@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.Agent.API"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.BitIndex.Client.Mocks", "tests\CrossChained.BTP.BitIndex.Client.Mocks\CrossChained.BTP.BitIndex.Client.Mocks.csproj", "{34C1B56D-85B6-4B0D-A37B-01EC6C9E09B7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossChained.BTP.Agent.API.WebClient", "src\CrossChained.BTP.Agent.API.WebClient\CrossChained.BTP.Agent.API.WebClient.csproj", "{A2DFE6E6-69E3-4A02-94E7-0E25D0E75CC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{34C1B56D-85B6-4B0D-A37B-01EC6C9E09B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34C1B56D-85B6-4B0D-A37B-01EC6C9E09B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34C1B56D-85B6-4B0D-A37B-01EC6C9E09B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2DFE6E6-69E3-4A02-94E7-0E25D0E75CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2DFE6E6-69E3-4A02-94E7-0E25D0E75CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2DFE6E6-69E3-4A02-94E7-0E25D0E75CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2DFE6E6-69E3-4A02-94E7-0E25D0E75CC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

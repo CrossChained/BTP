@@ -1,24 +1,32 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CrossChained.BTP.Agent.API.WebClient\CrossChained.BTP.Agent.API.WebClient.csproj" />
     <ProjectReference Include="..\..\src\CrossChained.BTP.Agent.API\CrossChained.BTP.Agent.API.csproj" />
     <ProjectReference Include="..\..\src\CrossChained.BTP.Agent\CrossChained.BTP.Agent.csproj" />
-    <ProjectReference Include="..\..\src\CrossChained.BTP.BitIndex.Client\CrossChained.BTP.BitIndex.Client.csproj" />
-    <ProjectReference Include="..\..\src\CrossChained.BTP.NBitcoinSV.Client\CrossChained.BTP.NBitcoinSV.Client.csproj" />
+    <PackageReference Include="CrossChained.BTP.BitIndex.Client" Version="0.0.3" />
+    <PackageReference Include="CrossChained.BTP.NBitcoinSV" Version="0.0.2" />
+    <PackageReference Include="CrossChained.BTP.NBitcoinSV.Client" Version="0.0.3" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace CrossChained.BTP.Agent
 {
@@ -32,6 +34,11 @@ namespace CrossChained.BTP.Agent
                             options.SetPostgresVersion(new System.Version(10, 0));
                             options.CommandTimeout(5 * 60);
                         }));
+
+            if (!services.Any(x => x.ServiceType.IsAssignableFrom(typeof(IOptions<Config.AgentConfig>))))
+            {
+                services.Configure<IOptions<Config.AgentConfig>>(Configuration.GetSection("BSV"));
+            }
 
             services.AddCors();
             services.AddMvc()
@@ -64,7 +71,6 @@ namespace CrossChained.BTP.Agent
                         .AllowAnyHeader());
             }
 
-            app.UseWebSockets();
             app.UseMvc();
 
             app.UseSwagger();
@@ -73,36 +79,6 @@ namespace CrossChained.BTP.Agent
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trusty API V1");
                 c.RoutePrefix = "api";
-            });
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path == "/ws/" || context.Request.Path == "/ws")
-                {
-                    if (context.WebSockets.IsWebSocketRequest)
-                    {
-                        using (var scope = app.ApplicationServices.CreateScope())
-                        {
-                            try
-                            {
-                                var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                                var processor = scope.ServiceProvider.GetService<API.IWebSocketAPI>();
-                                await processor.Start(webSocket);
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400;
-                    }
-                }
-                else
-                {
-                    await next();
-                }
             });
         }
     }
