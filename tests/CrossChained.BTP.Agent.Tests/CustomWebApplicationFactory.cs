@@ -15,13 +15,16 @@ namespace CrossChained.BTP.Agent.Tests
     {
         private readonly Key agent_key_;
         private readonly int port_;
+        private readonly string[] public_keys_;
 
         public CustomWebApplicationFactory(
             NBitcoin.Key agent_key,
-            int port)
+            int port,
+            string[] public_keys)
         {
             this.agent_key_ = agent_key;
             this.port_ = port;
+            this.public_keys_ = public_keys;
         }
 
         protected override IWebHostBuilder CreateWebHostBuilder()
@@ -42,7 +45,8 @@ namespace CrossChained.BTP.Agent.Tests
                 services.AddSingleton<IOptions<Config.AgentConfig>>(new OptionsWrapper<Config.AgentConfig>(
                     new Config.AgentConfig
                     {
-                        Address = this.agent_key_.PubKey.GetAddress(ScriptPubKeyType.Legacy, Network.Main).ToString()
+                        Address = this.agent_key_.PubKey.GetAddress(ScriptPubKeyType.Legacy, Network.Main).ToString(),
+                        PublicKeys = this.public_keys_
                     }));
 
                 // Build the service provider.

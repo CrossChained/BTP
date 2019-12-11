@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,7 +48,14 @@ namespace CrossChained.BTP.Agent.Tests
         {
             for (int i = 0; i < count; ++i)
             {
-                this.start_agent(5000 + i);
+                this.create_agent();
+            }
+
+            for (int i = 0; i < count; ++i)
+            {
+                this.start_agent(i,
+                    this.agents_.Select(x => 
+                    x.Key.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString()).ToArray());
             }
 
             for (int i = 0; i < count; ++i)
@@ -71,10 +79,15 @@ namespace CrossChained.BTP.Agent.Tests
             }
         }
 
-        internal void start_agent(int port)
+        internal void create_agent()
         {
-            var host = new AgentHost(port);
+            var host = new AgentHost();
             this.agents_.Add(host);
+        }
+
+        internal void start_agent(int index, string[] public_keys)
+        {
+            this.agents_[index].start(5000 + index, public_keys);
         }
 
         internal decimal get_user_balance(BSVUser user)

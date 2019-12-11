@@ -33,9 +33,14 @@ namespace CrossChained.BTP.Agent.API.WebClient
             this.http_client_.Dispose();
         }
 
-        public Task<string> get_margin_pool_address()
+        public async Task<string> get_margin_pool_address()
         {
-            throw new NotImplementedException();
+            using (var message = new HttpRequestMessage(HttpMethod.Get, "/api/Api/MarginWalletScript"))
+            {
+                var result = await this.http_client_.SendAsync(message);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadAsStringAsync()
+            }
         }
 
         public Task open_position(string trx, decimal open_price)

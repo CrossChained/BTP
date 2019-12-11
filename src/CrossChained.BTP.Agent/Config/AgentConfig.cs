@@ -9,5 +9,6 @@ namespace CrossChained.BTP.Agent.Config
     {
         public string Key { get; set; }
         public string Address { get; set; }
+        public string[] PublicKeys { get; set; }
     }
 }
