@@ -6,7 +6,7 @@ namespace CrossChained.BTP.Agent.API.WebClient
 {
     public class ApiClient : IApiClient
     {
-        private HttpClient http_client_;
+        private readonly HttpClient http_client_;
 
         public ApiClient(HttpClient httpClient)
         {
@@ -39,7 +39,7 @@ namespace CrossChained.BTP.Agent.API.WebClient
             {
                 var result = await this.http_client_.SendAsync(message);
                 result.EnsureSuccessStatusCode();
-                return await result.Content.ReadAsStringAsync()
+                return await result.Content.ReadAsStringAsync();
             }
         }
 

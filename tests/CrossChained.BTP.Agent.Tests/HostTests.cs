@@ -9,7 +9,7 @@ namespace CrossChained.BTP.Agent.Tests
         [Fact]
         public async Task LeaderTest()
         {
-            const int agent_count = 20;
+            const int agent_count = 3;
 
             const decimal user1_start = 10m;
             const decimal user1_bit_margin1 = 1m;

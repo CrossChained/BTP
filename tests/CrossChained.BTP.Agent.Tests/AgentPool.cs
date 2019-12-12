@@ -19,6 +19,9 @@ namespace CrossChained.BTP.Agent.Tests
     internal class AgentPool
     {
         private readonly List<AgentHost> agents_ = new List<AgentHost>();
+        private readonly Dictionary<string, BSVUser> users_ = new Dictionary<string, BSVUser>();
+        private readonly IBitIndexApi bitIndexApi_ = new Mock.BitIndexApi();
+        private readonly IBitcoinSVApi bitcoinSVApi_ = new Mock.BitcoinSVApi();
 
         internal IApiClient get_client(int index)
         {
@@ -31,17 +34,23 @@ namespace CrossChained.BTP.Agent.Tests
 
         internal Mock.BSVUser create_user(decimal start_sum)
         {
-            throw new NotImplementedException();
+            var result = new Mock.BSVUser
+            {
+                Key = new NBitcoin.Key(),
+                Balance = start_sum
+            };
+            this.users_.Add(result.Key.PubKey.ToHex(), result);
+            return result;
         }
 
         internal IBitIndexApi get_bitindex_api()
         {
-            throw new NotImplementedException();
+            return this.bitIndexApi_;
         }
 
         internal IBitcoinSVApi get_bitcoin_api()
         {
-            throw new NotImplementedException();
+            return this.bitcoinSVApi_;
         }
 
         internal async Task start(int count)
@@ -53,9 +62,11 @@ namespace CrossChained.BTP.Agent.Tests
 
             for (int i = 0; i < count; ++i)
             {
-                this.start_agent(i,
-                    this.agents_.Select(x => 
-                    x.Key.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString()).ToArray());
+                this.start_agent(
+                    i,
+                    this.agents_.Select(x => x.Key.PubKey.ToHex()).ToArray(),
+                    this.bitIndexApi_,
+                    this.bitcoinSVApi_);
             }
 
             for (int i = 0; i < count; ++i)
@@ -85,9 +96,13 @@ namespace CrossChained.BTP.Agent.Tests
             this.agents_.Add(host);
         }
 
-        internal void start_agent(int index, string[] public_keys)
+        internal void start_agent(
+            int index,
+            string[] public_keys,
+            IBitIndexApi bitIndexApi,
+            IBitcoinSVApi bitcoinSVApi)
         {
-            this.agents_[index].start(5000 + index, public_keys);
+            this.agents_[index].start(5000 + index, public_keys, bitIndexApi, bitcoinSVApi);
         }
 
         internal decimal get_user_balance(BSVUser user)
