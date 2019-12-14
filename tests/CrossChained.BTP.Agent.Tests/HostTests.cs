@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CrossChained.BTP.NBitcoinSV.Client;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -38,7 +40,14 @@ namespace CrossChained.BTP.Agent.Tests
             var user2 = pool.create_user(user2_start);
 
             var bitIndexApi = pool.get_bitindex_api();
-            var bsvApi = pool.get_bitcoin_api();
+
+            var serviceProvider = new ServiceCollection();
+            serviceProvider.UseBitcoinSVClient();
+            serviceProvider.AddSingleton<BitIndex.Client.IBitIndexApi>(bitIndexApi);
+
+            var sp = serviceProvider.BuildServiceProvider();
+
+            var bsvApi = sp.GetRequiredService<NBitcoinSV.IBitcoinSVApi>();
 
             var trx_id1 = Utils.SendTransaction(
                 bsvApi,

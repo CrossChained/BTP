@@ -9,7 +9,11 @@ namespace CrossChained.BTP.Agent.Tests.Mock
 {
     public class BitIndexApi : BitIndex.Client.IBitIndexApi
     {
-        public Network Network => throw new NotImplementedException();
+        private readonly Dictionary<string, BSVUser> users_ = new Dictionary<string, BSVUser>();
+
+        public Network Network => Network.Main;
+
+        public Dictionary<string, BSVUser> Users { get => this.users_; }
 
         public Task Broadcast(string transactionBody)
         {

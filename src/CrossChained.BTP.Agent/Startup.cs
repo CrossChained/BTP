@@ -1,3 +1,5 @@
+using CrossChained.BTP.NBitcoinSV;
+using CrossChained.BTP.NBitcoinSV.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +40,11 @@ namespace CrossChained.BTP.Agent
             if (!services.Any(x => x.ServiceType.IsAssignableFrom(typeof(IOptions<Config.AgentConfig>))))
             {
                 services.Configure<IOptions<Config.AgentConfig>>(Configuration.GetSection("BSV"));
+            }
+
+            if (!services.Any(x => x.ServiceType.IsAssignableFrom(typeof(IBitcoinSVApi))))
+            {
+                services.UseBitcoinSVClient();
             }
 
             services.AddCors();

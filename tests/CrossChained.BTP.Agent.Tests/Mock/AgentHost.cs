@@ -16,9 +16,9 @@ namespace CrossChained.BTP.Agent.Tests.Mock
         {
         }
 
-        internal void start(int port, string[] public_keys, BitIndex.Client.IBitIndexApi bitIndexApi, NBitcoinSV.IBitcoinSVApi bitcoinSVApi)
+        internal void start(int port, string[] public_keys, BitIndex.Client.IBitIndexApi bitIndexApi)
         {
-            this.agent_ = new CustomWebApplicationFactory<Startup>(this.agent_key_, port, public_keys, bitIndexApi, bitcoinSVApi);
+            this.agent_ = new CustomWebApplicationFactory<Startup>(this.agent_key_, port, public_keys, bitIndexApi);
         }
     }
 }

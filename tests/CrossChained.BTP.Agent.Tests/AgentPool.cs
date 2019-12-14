@@ -19,9 +19,7 @@ namespace CrossChained.BTP.Agent.Tests
     internal class AgentPool
     {
         private readonly List<AgentHost> agents_ = new List<AgentHost>();
-        private readonly Dictionary<string, BSVUser> users_ = new Dictionary<string, BSVUser>();
-        private readonly IBitIndexApi bitIndexApi_ = new Mock.BitIndexApi();
-        private readonly IBitcoinSVApi bitcoinSVApi_ = new Mock.BitcoinSVApi();
+        private readonly Mock.BitIndexApi bitIndexApi_ = new Mock.BitIndexApi();
 
         internal IApiClient get_client(int index)
         {
@@ -39,18 +37,13 @@ namespace CrossChained.BTP.Agent.Tests
                 Key = new NBitcoin.Key(),
                 Balance = start_sum
             };
-            this.users_.Add(result.Key.PubKey.ToHex(), result);
+            this.bitIndexApi_.Users.Add(result.Key.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString(), result);
             return result;
         }
 
         internal IBitIndexApi get_bitindex_api()
         {
             return this.bitIndexApi_;
-        }
-
-        internal IBitcoinSVApi get_bitcoin_api()
-        {
-            return this.bitcoinSVApi_;
         }
 
         internal async Task start(int count)
@@ -65,8 +58,7 @@ namespace CrossChained.BTP.Agent.Tests
                 this.start_agent(
                     i,
                     this.agents_.Select(x => x.Key.PubKey.ToHex()).ToArray(),
-                    this.bitIndexApi_,
-                    this.bitcoinSVApi_);
+                    this.bitIndexApi_);
             }
 
             for (int i = 0; i < count; ++i)
@@ -99,10 +91,9 @@ namespace CrossChained.BTP.Agent.Tests
         internal void start_agent(
             int index,
             string[] public_keys,
-            IBitIndexApi bitIndexApi,
-            IBitcoinSVApi bitcoinSVApi)
+            IBitIndexApi bitIndexApi)
         {
-            this.agents_[index].start(5000 + index, public_keys, bitIndexApi, bitcoinSVApi);
+            this.agents_[index].start(5000 + index, public_keys, bitIndexApi);
         }
 
         internal decimal get_user_balance(BSVUser user)

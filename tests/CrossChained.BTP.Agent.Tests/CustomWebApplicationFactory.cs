@@ -19,20 +19,17 @@ namespace CrossChained.BTP.Agent.Tests
         private readonly int port_;
         private readonly string[] public_keys_;
         private readonly IBitIndexApi bitIndexApi_;
-        private readonly IBitcoinSVApi bitcoinSVApi_;
 
         public CustomWebApplicationFactory(
             NBitcoin.Key agent_key,
             int port,
             string[] public_keys,
-            BitIndex.Client.IBitIndexApi bitIndexApi,
-            NBitcoinSV.IBitcoinSVApi bitcoinSVApi)
+            BitIndex.Client.IBitIndexApi bitIndexApi)
         {
             this.agent_key_ = agent_key;
             this.port_ = port;
             this.public_keys_ = public_keys;
             this.bitIndexApi_ = bitIndexApi;
-            this.bitcoinSVApi_ = bitcoinSVApi;
 
         }
 
@@ -52,7 +49,6 @@ namespace CrossChained.BTP.Agent.Tests
                     .BuildServiceProvider();
 
                 services.AddSingleton<BitIndex.Client.IBitIndexApi>(this.bitIndexApi_);
-                services.AddSingleton<NBitcoinSV.IBitcoinSVApi>(this.bitcoinSVApi_);
 
                 services.AddSingleton<IOptions<Config.AgentConfig>>(new OptionsWrapper<Config.AgentConfig>(
                     new Config.AgentConfig
