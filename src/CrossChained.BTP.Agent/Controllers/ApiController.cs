@@ -22,7 +22,7 @@ namespace CrossChained.BTP.Agent.Controllers
                 .Instance
                 .GenerateScriptPubKey(2, options.Value.PublicKeys.Select(x => new NBitcoin.PubKey(x)).ToArray());
 
-            return Ok(result.ToString());
+            return Ok(result.GetScriptAddress(Network.Main).ToString());
         }
 
     }

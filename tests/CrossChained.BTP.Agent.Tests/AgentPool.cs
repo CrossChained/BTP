@@ -35,9 +35,20 @@ namespace CrossChained.BTP.Agent.Tests
             var result = new Mock.BSVUser
             {
                 Key = new NBitcoin.Key(),
-                Balance = start_sum
+                Balance = start_sum,
+                Balances = new Balance[]
+                {
+                    new Balance
+                    {
+                        Amount = start_sum,
+                        TxId = NBitcoin.uint256.Zero.ToString(),
+                        OutIndex = 0 
+                    }
+                }
             };
-            this.bitIndexApi_.Users.Add(result.Key.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString(), result);
+            this.bitIndexApi_.Users.Add(
+                result.Key.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString(),
+                result);
             return result;
         }
 

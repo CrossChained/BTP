@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CrossChained.BTP.NBitcoinSV.Client.impl
@@ -23,7 +24,7 @@ namespace CrossChained.BTP.NBitcoinSV.Client.impl
             decimal current_balance = 0M;
             if (balance.Length > 0)
             {
-                foreach (var coin in balance)
+                foreach (var coin in balance.OrderBy(x => x.Amount))
                 {
                     if (0 < coin.Amount)
                     {
@@ -34,6 +35,10 @@ namespace CrossChained.BTP.NBitcoinSV.Client.impl
                             from.ScriptPubKey));
 
                         current_balance += coin.Amount;
+                        if(current_balance >= amount)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -42,7 +47,6 @@ namespace CrossChained.BTP.NBitcoinSV.Client.impl
             {
                 throw new Exception("Not enough money");
             }
-
 
             var builder = BSVConsensusFactory.Instance.CreateTransactionBuilder();
             builder.AddKeys(from);
