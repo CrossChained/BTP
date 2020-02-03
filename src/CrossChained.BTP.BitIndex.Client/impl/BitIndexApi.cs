@@ -31,8 +31,10 @@ namespace CrossChained.BTP.BitIndex.Client.impl
             using (var client = new HttpClient())
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/tx/send"));
+                request.Headers.Add("api_key", this.options_.ApiKey);
                 request.Content = new StringContent(
-                    JsonConvert.SerializeObject(new SendTxArguments { TransactionBody = transactionBody }),
+                    JsonConvert.SerializeObject(
+                        new SendTxArguments { TransactionBody = transactionBody }),
                     Encoding.UTF8,
                     "application/json");
 
@@ -44,31 +46,19 @@ namespace CrossChained.BTP.BitIndex.Client.impl
             }
         }
 
-        public async Task<Balance[]> GetBalance(string address)
+        public Task<Balance[]> GetBalance(string address)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetStringAsync(new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/addr/" + address + "/utxo"));
-                return JsonConvert.DeserializeObject<Balance[]>(response);
-            }
+            return GetAsync<Balance[]>($"/addr/{address}/utxo");
         }
 
-        public async Task<AddressInfo> GetAddressInfo(string address)
+        public Task<AddressInfo> GetAddressInfo(string address)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetStringAsync(new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/addr/" + address));
-                return JsonConvert.DeserializeObject<AddressInfo>(response);
-            }
+            return GetAsync<AddressInfo>($"/addr/address");
         }
 
-        public async Task<Transaction> GetTransaction(string trxid)
+        public Task<Transaction> GetTransaction(string trxid)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetStringAsync(new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/tx/" + trxid));
-                return JsonConvert.DeserializeObject<Transaction>(response);
-            }
+            return GetAsync<Transaction>("/tx/" + trxid);
         }
 
         public async Task Monitore(string address, string webhookUrl, string secret)
@@ -121,6 +111,18 @@ namespace CrossChained.BTP.BitIndex.Client.impl
             { }
 
             throw new Exception($"{operation} {response.StatusCode} {response.ReasonPhrase} {body}");
+        }
+
+        private async Task<T> GetAsync<T>(string url)
+        {
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + url));
+                request.Headers.Add("api_key", this.options_.ApiKey);
+                var response = await client.SendAsync(request);
+                var responseText = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(responseText);
+            }
         }
     }
 }
