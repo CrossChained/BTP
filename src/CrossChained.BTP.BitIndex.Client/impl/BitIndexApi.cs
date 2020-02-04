@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace CrossChained.BTP.BitIndex.Client.impl
 {
-    class BitIndexApi : IBitIndexApi
+    public class BitIndexApi : IBitIndexApi
     {
         private readonly BitIndexApiConfig options_;
 
@@ -53,12 +53,12 @@ namespace CrossChained.BTP.BitIndex.Client.impl
 
         public Task<AddressInfo> GetAddressInfo(string address)
         {
-            return GetAsync<AddressInfo>($"/addr/address");
+            return GetAsync<AddressInfo>($"/addr/{address}");
         }
 
         public Task<Transaction> GetTransaction(string trxid)
         {
-            return GetAsync<Transaction>("/tx/" + trxid);
+            return GetAsync<Transaction>($"/tx/{trxid}");
         }
 
         public async Task Monitore(string address, string webhookUrl, string secret)

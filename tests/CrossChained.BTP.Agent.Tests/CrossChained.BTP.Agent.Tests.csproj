@@ -27,6 +27,7 @@
     <PackageReference Include="CrossChained.BTP.BitIndex.Client" Version="0.0.3" />
     <PackageReference Include="CrossChained.BTP.NBitcoinSV" Version="0.0.2" />
     <PackageReference Include="CrossChained.BTP.NBitcoinSV.Client" Version="0.0.3" />
+    <ProjectReference Include="..\..\src\CrossChained.BTP.BitIndex.Client\CrossChained.BTP.BitIndex.Client.csproj" />
   </ItemGroup>
 
 </Project>
