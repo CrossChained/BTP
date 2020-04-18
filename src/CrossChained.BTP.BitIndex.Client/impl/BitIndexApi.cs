@@ -12,6 +12,7 @@ namespace CrossChained.BTP.BitIndex.Client.impl
     public class BitIndexApi : IBitIndexApi
     {
         private readonly BitIndexApiConfig options_;
+        private readonly HttpClient _client = new HttpClient();
 
         public Network Network
         {
@@ -28,9 +29,8 @@ namespace CrossChained.BTP.BitIndex.Client.impl
 
         public async Task Broadcast(string transactionBody)
         {
-            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/tx/send")))
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/tx/send"));
                 request.Headers.Add("api_key", this.options_.ApiKey);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(
@@ -38,7 +38,7 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
                 if (System.Net.HttpStatusCode.OK != response.StatusCode)
                 {
                     await ThrowError("Unable to broadcast transaction.", response);
@@ -63,9 +63,8 @@ namespace CrossChained.BTP.BitIndex.Client.impl
 
         public async Task Monitore(string address, string webhookUrl, string secret)
         {
-            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook/endpoint")))
             {
-                var request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook/endpoint"));
                 request.Headers.Add("api_key", this.options_.ApiKey);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new MonitorConfig
@@ -75,13 +74,15 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                         WebhookSecret = secret
                     }),
                     Encoding.UTF8, "application/json");
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
                 if(System.Net.HttpStatusCode.OK != response.StatusCode)
                 {
                     await ThrowError("Unable to install web hook.", response);
                 }
+            }
 
-                request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook/monitored_addrs"));
+            using (var request = new HttpRequestMessage(HttpMethod.Put, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + "/webhook/monitored_addrs")))
+            {
                 request.Headers.Add("api_key", this.options_.ApiKey);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new MonitorAddress[]
@@ -92,7 +93,7 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                         }
                     }),
                     Encoding.UTF8, "application/json");
-                response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
                 if (System.Net.HttpStatusCode.OK != response.StatusCode)
                 {
                     await ThrowError("Unable to install web hook.", response);
@@ -115,11 +116,10 @@ namespace CrossChained.BTP.BitIndex.Client.impl
 
         private async Task<T> GetAsync<T>(string url)
         {
-            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + url)))
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, new Uri(new Uri(this.options_.BaseUri), this.options_.Network.ToLower() + url));
                 request.Headers.Add("api_key", this.options_.ApiKey);
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
                 var responseText = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(responseText);
             }
