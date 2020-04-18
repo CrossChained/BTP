@@ -18,8 +18,11 @@
 
   <ItemGroup>
     <PackageReference Include="NBitcoin" Version="4.2.7" />
-    <PackageReference Include="CrossChained.BTP.BitIndex.Client" Version="0.0.4" />
-    <PackageReference Include="CrossChained.BTP.NBitcoinSV" Version="0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrossChained.BTP.BitIndex.Client\CrossChained.BTP.BitIndex.Client.csproj" />
+    <ProjectReference Include="..\CrossChained.BTP.NBitcoinSV\CrossChained.BTP.NBitcoinSV.csproj" />
   </ItemGroup>
 
 </Project>
