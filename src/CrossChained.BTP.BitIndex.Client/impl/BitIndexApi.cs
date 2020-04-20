@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NBitcoin;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ namespace CrossChained.BTP.BitIndex.Client.impl
 {
     public class BitIndexApi : IBitIndexApi
     {
+        private readonly ILogger<BitIndexApi> _logger;
         private readonly BitIndexApiConfig options_;
         private readonly HttpClient _client = new HttpClient();
 
@@ -22,8 +24,9 @@ namespace CrossChained.BTP.BitIndex.Client.impl
             }
         }
 
-        public BitIndexApi(IOptions<BitIndexApiConfig> options)
+        public BitIndexApi(IOptions<BitIndexApiConfig> options,ILogger<BitIndexApi> logger)
         {
+            _logger = logger;
             this.options_ = options.Value;
         }
 
@@ -121,8 +124,19 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                 request.Headers.Add("api_key", this.options_.ApiKey);
                 var response = await _client.SendAsync(request);
                 var responseText = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(responseText);
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(responseText);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError("failed to parse data from bitindex: {ResponseText}", responseText);
+                    throw;
+                }
+                
             }
+            
+
         }
     }
 }
