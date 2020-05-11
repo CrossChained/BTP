@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,15 +127,12 @@ namespace CrossChained.BTP.BitIndex.Client.impl
                 {
                     return JsonConvert.DeserializeObject<T>(responseText);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _logger.LogError("failed to parse data from bitindex: {ResponseText}", responseText);
+                    _logger.LogError("Failed loading data from {Url}: {ResponseText}", url, responseText);
                     throw;
                 }
-                
             }
-            
-
         }
     }
 }
