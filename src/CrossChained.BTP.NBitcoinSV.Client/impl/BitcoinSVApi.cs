@@ -2,62 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CrossChained.BTP.BitIndex.Client;
+using NBitcoin;
+using Transaction = NBitcoin.Transaction;
 
 namespace CrossChained.BTP.NBitcoinSV.Client.impl
 {
     class BitcoinSVApi : IBitcoinSVApi
     {
-        private readonly BitIndex.Client.IBitIndexApi bitIndexApi_;
+        private readonly IBitIndexApi _bitIndexApi;
 
-        public BitcoinSVApi(
-            BitIndex.Client.IBitIndexApi bitIndexApi)
+        public BitcoinSVApi(IBitIndexApi bitIndexApi)
         {
-            this.bitIndexApi_ = bitIndexApi;
+            _bitIndexApi = bitIndexApi;
         }
 
-        public async Task<NBitcoin.TransactionBuilder> PrepareTransaction(NBitcoin.Key from, string to, decimal amount)
+        public async Task<TransactionBuilder> PrepareTransaction(Key from, string to, decimal amount, decimal fee)
         {
-            var fromAddress = from.PubKey.GetAddress(NBitcoin.ScriptPubKeyType.Legacy, this.bitIndexApi_.Network).ToString();
-            var balance = await this.bitIndexApi_.GetBalance(fromAddress);
+            var fromAddress = from.PubKey.GetAddress(ScriptPubKeyType.Legacy, _bitIndexApi.Network).ToString();
+            var utxos = await _bitIndexApi.GetBalance(fromAddress);
 
-            var unspentCoins = new List<NBitcoin.Coin>();
-            decimal current_balance = 0M;
-            if (balance.Length > 0)
+            var unspentCoins = new List<Coin>();
+            var currentBalance = 0M;
+            foreach (var utxo in utxos.OrderBy(x => x.Amount).SkipWhile(t => t.Amount <= 0))
             {
-                foreach (var coin in balance.OrderBy(x => x.Amount))
-                {
-                    if (0 < coin.Amount)
-                    {
-                        unspentCoins.Add(new NBitcoin.Coin(
-                            NBitcoin.uint256.Parse(coin.TxId),
-                            coin.OutIndex,
-                            NBitcoin.Money.Coins(coin.Amount),
-                            from.ScriptPubKey));
+                unspentCoins.Add(new Coin(
+                    uint256.Parse(utxo.TxId),
+                    utxo.OutIndex,
+                    Money.Satoshis(utxo.Satoshis),
+                    from.ScriptPubKey
+                ));
 
-                        current_balance += coin.Amount;
-                        if(current_balance >= amount)
-                        {
-                            break;
-                        }
-                    }
-                }
+                currentBalance += utxo.Amount;
+                if(currentBalance >= amount + fee)
+                    break;
             }
 
-            if (current_balance < amount)
-            {
+            if (currentBalance < amount)
                 throw new Exception("Not enough money");
-            }
 
-            var builder = BSVConsensusFactory.Instance.CreateTransactionBuilder();
-            builder.AddKeys(from);
-            builder.AddCoins(unspentCoins);
-            builder.Send(NBitcoin.BitcoinAddress.Create(to, this.bitIndexApi_.Network), NBitcoin.Money.Coins(amount));
-            builder.SetChange(from.ScriptPubKey);
+            var builder = _bitIndexApi.Network.CreateTransactionBuilder()
+                .AddKeys(from)
+                .AddCoins(unspentCoins)
+                .Send(BitcoinAddress.Create(to, _bitIndexApi.Network), Money.Coins(amount))
+                .SetChange(from.ScriptPubKey)
+                .SendFees(Money.Coins(fee));
 
             return builder;
         }
 
-        public decimal EstimateFee(NBitcoin.Transaction transaction)
+        public decimal EstimateFee(Transaction transaction)
         {
             return 0.00000001m * (transaction.ToHex().Length / 2 + 4);
         }
