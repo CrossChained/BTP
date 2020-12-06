@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NBitcoin" Version="4.2.7" />
-    <PackageReference Include="NBitcoin.Altcoins" Version="1.0.3" />
+    <PackageReference Include="NBitcoin" Version="5.0.67" />
+    <PackageReference Include="NBitcoin.Altcoins" Version="2.0.22" />
   </ItemGroup>
 
 </Project>
